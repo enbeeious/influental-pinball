@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://chha0ck0l36ou"]
+
+[ext_resource type="Script" path="res://ball.gd" id="1_2s7hw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ja41o"]
+radius = 12.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_u3lb8"]
+radius = 12.0
+height = 24.0
+
+[node name="Ball" type="RigidBody2D"]
+gravity_scale = 0.6
+can_sleep = false
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 8
+script = ExtResource("1_2s7hw")
+metadata/ball = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ja41o")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+mesh = SubResource("SphereMesh_u3lb8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

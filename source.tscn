@@ -1,0 +1,390 @@
+[gd_scene load_steps=20 format=3 uid="uid://djy48g3dcbxtt"]
+
+[ext_resource type="Script" path="res://source.gd" id="1_jckq1"]
+[ext_resource type="Script" path="res://bumper.gd" id="2_22gs7"]
+[ext_resource type="Script" path="res://pointy.gd" id="2_ulyml"]
+[ext_resource type="FontFile" uid="uid://hq0a08jeqpyx" path="res://GrapeSoda.ttf" id="3_jiklj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_dc448"]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_gm3vv"]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kg73o"]
+bounce = 0.1
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jj4x8"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bsori"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_edjyv"]
+normal = Vector2(0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftf5q"]
+size = Vector2(108, 24)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cwp0t"]
+radius = 12.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_yu5ac"]
+radius = 12.0
+height = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ytg5"]
+size = Vector2(108, 24)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_al01r"]
+bounce = 0.7
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wjepd"]
+bounce = 0.7
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5j0t0"]
+radius = 16.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_2vxyd"]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_oucap"]
+size = Vector2(16, 16)
+
+[node name="source" type="Node2D"]
+script = ExtResource("1_jckq1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.55, 0.55)
+
+[node name="Spawns" type="Node2D" parent="."]
+position = Vector2(-520, 168)
+
+[node name="SPAWNLEFT" type="MeshInstance2D" parent="Spawns"]
+self_modulate = Color(0.466181, 0.466181, 0.466181, 1)
+mesh = SubResource("SphereMesh_dc448")
+
+[node name="SPAWNRIGHT" type="MeshInstance2D" parent="Spawns"]
+self_modulate = Color(0.466181, 0.466181, 0.466181, 1)
+position = Vector2(464, 0)
+mesh = SubResource("SphereMesh_gm3vv")
+
+[node name="MachineColliders" type="Node2D" parent="."]
+
+[node name="WALLS" type="StaticBody2D" parent="MachineColliders"]
+position = Vector2(-288, 0)
+physics_material_override = SubResource("PhysicsMaterial_kg73o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MachineColliders/WALLS"]
+position = Vector2(-256, 0)
+shape = SubResource("WorldBoundaryShape2D_jj4x8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="MachineColliders/WALLS"]
+position = Vector2(256, 0)
+shape = SubResource("WorldBoundaryShape2D_bsori")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="MachineColliders/WALLS"]
+position = Vector2(0, -304)
+shape = SubResource("WorldBoundaryShape2D_edjyv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MachineColliders/WALLS"]
+polygon = PackedVector2Array(-256, 192, -128, 224, -128, 304, -256, 304)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="MachineColliders/WALLS"]
+polygon = PackedVector2Array(256, 304, 256, 192, 128, 224, 128, 304)
+
+[node name="LBAR" type="AnimatableBody2D" parent="MachineColliders"]
+position = Vector2(-416, 240)
+
+[node name="Collider" type="CollisionShape2D" parent="MachineColliders/LBAR"]
+position = Vector2(46, 4)
+shape = SubResource("RectangleShape2D_ftf5q")
+one_way_collision_margin = 128.0
+
+[node name="Collider2" type="CollisionShape2D" parent="MachineColliders/LBAR"]
+position = Vector2(100, 4)
+shape = SubResource("CircleShape2D_cwp0t")
+one_way_collision_margin = 128.0
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MachineColliders/LBAR/Collider2"]
+mesh = SubResource("SphereMesh_yu5ac")
+
+[node name="Color" type="ColorRect" parent="MachineColliders/LBAR"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 100.0
+offset_bottom = 16.0
+
+[node name="RBAR" type="AnimatableBody2D" parent="MachineColliders"]
+position = Vector2(-160, 240)
+collision_priority = 10.0
+
+[node name="Collider" type="CollisionShape2D" parent="MachineColliders/RBAR"]
+position = Vector2(-46, 4)
+shape = SubResource("RectangleShape2D_4ytg5")
+one_way_collision_margin = 128.0
+
+[node name="Color" type="ColorRect" parent="MachineColliders/RBAR"]
+offset_left = -100.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 16.0
+
+[node name="Collider3" type="CollisionShape2D" parent="MachineColliders/RBAR"]
+position = Vector2(-100, 4)
+shape = SubResource("CircleShape2D_cwp0t")
+one_way_collision_margin = 128.0
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="MachineColliders/RBAR/Collider3"]
+mesh = SubResource("SphereMesh_yu5ac")
+
+[node name="TRILEFT" type="AnimatableBody2D" parent="MachineColliders"]
+position = Vector2(-544, -64)
+physics_material_override = SubResource("PhysicsMaterial_al01r")
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="MachineColliders/TRILEFT"]
+polygon = PackedVector2Array(0, -40, 32, 0, 0, 40)
+
+[node name="Polygon2D" type="Polygon2D" parent="MachineColliders/TRILEFT"]
+color = Color(0.687688, 0.741606, 0.984745, 1)
+polygon = PackedVector2Array(0, -40, 32, 0, 0, 40)
+
+[node name="Area2D" type="Area2D" parent="MachineColliders/TRILEFT"]
+script = ExtResource("2_ulyml")
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="MachineColliders/TRILEFT/Area2D"]
+polygon = PackedVector2Array(0, -44, 36, 0, 0, 44)
+
+[node name="TRIRIGHT" type="AnimatableBody2D" parent="MachineColliders"]
+position = Vector2(-64, -64)
+physics_material_override = SubResource("PhysicsMaterial_wjepd")
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="MachineColliders/TRIRIGHT"]
+polygon = PackedVector2Array(32, -40, 0, 0, 32, 40)
+
+[node name="Polygon2D2" type="Polygon2D" parent="MachineColliders/TRIRIGHT"]
+color = Color(0.687688, 0.741606, 0.984745, 1)
+polygon = PackedVector2Array(0, 0, 32, -40, 32, 40)
+
+[node name="Area2D" type="Area2D" parent="MachineColliders/TRIRIGHT"]
+script = ExtResource("2_ulyml")
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="MachineColliders/TRIRIGHT/Area2D"]
+polygon = PackedVector2Array(32, -44, -4, 0, 32, 44)
+
+[node name="MachineWalls" type="Node2D" parent="."]
+
+[node name="Bounds" type="Polygon2D" parent="MachineWalls"]
+z_index = 10
+position = Vector2(-288, 0)
+color = Color(0.589543, 0.584061, 0.909525, 1)
+invert_enabled = true
+invert_border = 11.0
+polygon = PackedVector2Array(-256, -304, 256, -304, 256, 304, 128, 304, 128, 416, -128, 416, -128, 304, -256, 304)
+metadata/_edit_lock_ = true
+
+[node name="AnchorLeft" type="Polygon2D" parent="MachineWalls"]
+z_index = 10
+position = Vector2(-288, 0)
+color = Color(0.589543, 0.584061, 0.909525, 1)
+invert_border = 11.0
+polygon = PackedVector2Array(-256, 192, -128, 224, -128, 304, -256, 304)
+
+[node name="AnchorRight" type="Polygon2D" parent="MachineWalls"]
+z_index = 10
+position = Vector2(-288, 0)
+color = Color(0.589543, 0.584061, 0.909525, 1)
+invert_border = 11.0
+polygon = PackedVector2Array(256, 304, 256, 192, 128, 224, 128, 304)
+
+[node name="Bumpers" type="Node2D" parent="."]
+
+[node name="Bumper" type="RigidBody2D" parent="Bumpers"]
+position = Vector2(-416, -128)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("2_22gs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpers/Bumper"]
+shape = SubResource("CircleShape2D_5j0t0")
+
+[node name="THIS" type="Node2D" parent="Bumpers/Bumper"]
+
+[node name="Mesh" type="MeshInstance2D" parent="Bumpers/Bumper/THIS"]
+self_modulate = Color(0.827434, 0.202674, 0.132204, 1)
+mesh = SubResource("SphereMesh_2vxyd")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Bumpers/Bumper/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Bumpers/Bumper/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+rotation = 0.785397
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="Bumper2" type="RigidBody2D" parent="Bumpers"]
+position = Vector2(-160, -128)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("2_22gs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpers/Bumper2"]
+shape = SubResource("CircleShape2D_5j0t0")
+
+[node name="THIS" type="Node2D" parent="Bumpers/Bumper2"]
+
+[node name="Mesh" type="MeshInstance2D" parent="Bumpers/Bumper2/THIS"]
+self_modulate = Color(0.827434, 0.202674, 0.132204, 1)
+mesh = SubResource("SphereMesh_2vxyd")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Bumpers/Bumper2/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Bumpers/Bumper2/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+rotation = 0.785397
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="Bumper3" type="RigidBody2D" parent="Bumpers"]
+position = Vector2(-288, -64)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("2_22gs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpers/Bumper3"]
+shape = SubResource("CircleShape2D_5j0t0")
+
+[node name="THIS" type="Node2D" parent="Bumpers/Bumper3"]
+
+[node name="Mesh" type="MeshInstance2D" parent="Bumpers/Bumper3/THIS"]
+self_modulate = Color(0.827434, 0.202674, 0.132204, 1)
+mesh = SubResource("SphereMesh_2vxyd")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Bumpers/Bumper3/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Bumpers/Bumper3/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+rotation = 0.785397
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="Bumper4" type="RigidBody2D" parent="Bumpers"]
+position = Vector2(-416, 0)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("2_22gs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpers/Bumper4"]
+shape = SubResource("CircleShape2D_5j0t0")
+
+[node name="THIS" type="Node2D" parent="Bumpers/Bumper4"]
+
+[node name="Mesh" type="MeshInstance2D" parent="Bumpers/Bumper4/THIS"]
+self_modulate = Color(0.827434, 0.202674, 0.132204, 1)
+mesh = SubResource("SphereMesh_2vxyd")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Bumpers/Bumper4/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Bumpers/Bumper4/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+rotation = 0.785397
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="Bumper5" type="RigidBody2D" parent="Bumpers"]
+position = Vector2(-160, 0)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("2_22gs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpers/Bumper5"]
+shape = SubResource("CircleShape2D_5j0t0")
+
+[node name="THIS" type="Node2D" parent="Bumpers/Bumper5"]
+
+[node name="Mesh" type="MeshInstance2D" parent="Bumpers/Bumper5/THIS"]
+self_modulate = Color(0.827434, 0.202674, 0.132204, 1)
+mesh = SubResource("SphereMesh_2vxyd")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Bumpers/Bumper5/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Bumpers/Bumper5/THIS"]
+self_modulate = Color(0.980677, 0.909144, 0, 1)
+rotation = 0.785397
+mesh = SubResource("QuadMesh_oucap")
+
+[node name="BALLS" type="Node" parent="."]
+
+[node name="GUI" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_top = -320.0
+offset_right = 568.0
+offset_bottom = 312.0
+
+[node name="ScoreHeader" type="RichTextLabel" parent="GUI"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 112.0
+grow_horizontal = 2
+theme_override_constants/line_separation = -16
+theme_override_fonts/normal_font = ExtResource("3_jiklj")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "SCORE"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="PointDisplay" type="RichTextLabel" parent="GUI"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 112.0
+grow_horizontal = 2
+theme_override_constants/line_separation = -16
+theme_override_fonts/normal_font = ExtResource("3_jiklj")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "
+0000000000"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GUI"]
+texture_filter = 1
+layout_mode = 0
+offset_top = 104.0
+offset_right = 484.0
+offset_bottom = 456.0
+theme_override_fonts/normal_font = ExtResource("3_jiklj")
+theme_override_font_sizes/normal_font_size = 32
+text = "summon ball : enter
+flippers: a, d"
